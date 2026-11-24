@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!--
+    Política de seguridad de contenido (CSP) restrictiva: todo se sirve desde el propio sitio.
+    Sin scripts ni estilos "inline" (por eso no hay atributos style="..." en el HTML).
+    OJO: frame-ancestors, HSTS y X-Content-Type-Options NO funcionan en <meta>;
+    van como cabeceras del hosting (ver LEEME.md).
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; form-action 'self' mailto:; base-uri 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#05070D">
+  <meta name="color-scheme" content="dark">
+  <title>Cuidanet · Ciberseguridad para empresas</title>
+  <meta name="description" content="Encontramos los puntos débiles de sus webs y apps y las defendemos en tiempo real. Solicite su análisis, sin compromiso.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Cuidanet">
+  <meta property="og:title" content="Cuidanet · Ciberseguridad para empresas">
+  <meta property="og:description" content="Encontramos los puntos débiles de sus webs y apps y las defendemos en tiempo real. Solicite su análisis, sin compromiso.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/estilos.css">
+  <!-- GSAP 3.15.1 + ScrollTrigger autoalojados (sin CDN). Licencia: https://gsap.com/standard-license -->
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <div class="progreso" role="none"></div>
+
+  <!-- ===================== CABECERA FIJA ===================== -->
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="logo" href="#inicio" aria-label="Cuidanet, ir al inicio">
+        <svg viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 1.5 22 5.5V14c0 6-5 10.500-10 12.500C7 24.500 2 20 2 14V5.500z" stroke="#2E8BFF" stroke-width="2" stroke-linejoin="round" fill="rgba(46,139,255,.15)"/><path d="m8 14 3 3 5-6" stroke="#7DB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cuidanet
+      </a>
+      <nav class="menu" aria-label="Principal">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <a class="boton boton--principal boton--cabecera" href="#contacto">Solicite su análisis</a>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===================== 1. INICIO: llamada a la acción + escena con scroll =====================
+         Una sola sección fija: el hero es el primer "plano" de la secuencia de imágenes.
+         Al bajar, las letras del título se dispersan (unas suben y otras bajan), la escena avanza
+         y entran los pasos. Al subir, todo retrocede. Sin JS o con movimiento reducido se ve
+         una imagen fija, el hero y los cuatro pasos en lista. -->
+    <section id="inicio" class="escena" aria-labelledby="titulo-hero" data-escena data-frames="assets/frames" data-total="120">
+      <div class="escena__pista">
+        <div class="escena__marco">
+          <img class="escena__poster" src="assets/frames/poster.webp" width="1280" height="720" alt="Una red de puntos conectados con un escudo luminoso en el centro y una marca de verificación: su web, vigilada y protegida">
+          <canvas class="escena__lienzo" aria-hidden="true" hidden></canvas>
+          <div class="escena__velo" aria-hidden="true"></div>
+          <div class="escena__capa">
+            <div class="contenedor escena__contenido">
+              <div class="escena__etapas">
+                <div class="etapa etapa--hero">
+                  <p class="etiqueta">Ciberseguridad para empresas</p>
+                  <h1 id="titulo-hero" data-letras>Su web, protegida.</h1>
+                  <p class="hero__sub">Sin que usted tenga que ser experto.</p>
+                  <div class="hero__acciones">
+                    <a class="boton boton--principal" href="#contacto" data-magnetico>Solicite su análisis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                    <a class="boton boton--secundario" href="#servicios">Conozca cómo le protegemos</a>
+                  </div>
+                  <p class="hero__apoyo">Sin compromiso. Le respondemos en <span class="ejemplo">24 horas laborables</span>.</p>
+                  <a class="hero__bajar" href="#servicios"><span class="solo-lector">Seguir bajando</span></a>
+                </div>
+                <h2 class="solo-lector">Así vigilamos por usted</h2>
+                <ol class="escena__pasos">
+                  <li class="paso etapa">
+                    <span class="paso__num">01 · Conocemos su web</span>
+                    <h3 data-letras>Primero, entendemos qué hay que cuidar.</h3>
+                    <p>Hacemos un mapa de sus webs y apps.</p>
+                  </li>
+                  <li class="paso etapa">
+                    <span class="paso__num">02 · Vigilamos</span>
+                    <h3 data-letras>Después, estamos atentos a todas horas.</h3>
+                    <p>Detectamos cualquier movimiento extraño.</p>
+                  </li>
+                  <li class="paso etapa">
+                    <span class="paso__num">03 · Respondemos</span>
+                    <h3 data-letras>Si algo ocurre, actuamos en segundos.</h3>
+                    <p>Bloqueamos el acceso sospechoso.</p>
+                  </li>
+                  <li class="paso etapa">
+                    <span class="paso__num">04 · Su negocio sigue</span>
+                    <h3 data-letras>Usted continúa con lo suyo.</h3>
+                    <p>Su web sigue en línea y le explicamos lo ocurrido, sin tecnicismos.</p>
+                    <a class="boton boton--principal paso__cta" href="#contacto" data-magnetico>Solicite su análisis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  </li>
+                </ol>
+              </div>
+              <ol class="escena__indice" aria-hidden="true">
+                <li>Conocemos</li><li>Vigilamos</li><li>Respondemos</li><li>Sigue en marcha</li>
+              </ol>
+            </div>
+            <div class="escena__barra" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CIFRAS (DATOS DE EJEMPLO: sustituir por reales) ===================== -->
+    <section class="cifras" aria-label="Cuidanet en cifras">
+      <div class="contenedor">
+        <ul class="cifras__lista">
+          <li class="revela"><strong class="cifra" data-valor="24" data-sufijo="/7">24/7</strong><span>vigilancia continua de su web</span></li>
+          <li class="revela" data-d="1"><strong class="cifra" data-valor="60" data-sufijo=" s">60 s</strong><span>tiempo objetivo para actuar ante un ataque</span></li>
+          <li class="revela" data-d="2"><strong class="cifra" data-valor="50" data-prefijo="+">+50</strong><span>webs y apps analizadas</span></li>
+          <li class="revela" data-d="3"><strong class="cifra" data-valor="3">3</strong><span>productos propios que usamos a diario</span></li>
+        </ul>
+        <p class="cifras__nota"><span class="ejemplo">Cifras</span> provisionales: sustituir por datos reales antes de publicar (los «3 productos» sí son reales).</p>
+      </div>
+    </section>
+
+    <!-- ===================== 2. SERVICIOS ===================== -->
+    <section id="servicios" class="seccion" aria-labelledby="titulo-servicios">
+      <div class="resplandor resplandor--der" aria-hidden="true"></div>
+      <div class="contenedor">
+        <header class="seccion__cabeza revela">
+          <p class="etiqueta">Servicios</p>
+          <h2 id="titulo-servicios">Tres maneras de cuidar su presencia digital</h2>
+          <p>Elija por dónde empezar. Le acompañamos en cada paso y se lo explicamos sin tecnicismos.</p>
+        </header>
+
+        <div class="servicios">
+          <article class="tarjeta servicio revela" data-inclinar>
+            <span class="servicio__fx" aria-hidden="true"><i class="fx__barrido"></i></span>
+            <span class="servicio__num">01<i class="servicio__linea" aria-hidden="true"></i></span>
+            <div class="servicio__icono"><svg viewBox="0 0 24 24" fill="none" stroke="#7DB7FF" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><g class="ico-lupa"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/><path d="M10.5 8v3.5M10.5 13.6v.1"/></g></svg></div>
+            <h3>Análisis de vulnerabilidades en webs y apps</h3>
+            <p class="beneficio">Descubra los puntos débiles de su web o su app antes de que se conviertan en un problema para su negocio.</p>
+            <p>Revisamos su web o su app y le entregamos un informe claro, con lo más importante primero.</p>
+            <a class="servicio__enlace" href="#contacto">Cuéntenos su caso<span class="solo-lector"> sobre el análisis de vulnerabilidades</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="tarjeta servicio revela" data-d="1" data-inclinar>
+            <span class="servicio__fx" aria-hidden="true"><i class="fx__barrido"></i></span>
+            <span class="servicio__num">02<i class="servicio__linea" aria-hidden="true"></i></span>
+            <div class="servicio__icono"><svg viewBox="0 0 24 24" fill="none" stroke="#7DB7FF" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="ico-ojo" d="M2 12s3.500-7 10-7 10 7 10 7-3.500 7-10 7S2 12 2 12z"/><circle class="ico-pupila" cx="12" cy="12" r="3"/></svg></div>
+            <h3>Monitorización y defensa ante ataques</h3>
+            <p class="beneficio">Su web sigue funcionando mientras nosotros vigilamos y respondemos en segundos.</p>
+            <p>Vigilamos su presencia digital a todas horas y actuamos en cuanto algo no es normal.</p>
+            <a class="servicio__enlace" href="#contacto">Cuéntenos su caso<span class="solo-lector"> sobre la monitorización y defensa</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="tarjeta servicio revela" data-d="2" data-inclinar>
+            <span class="servicio__fx" aria-hidden="true"><i class="fx__barrido"></i></span>
+            <span class="servicio__num">03<i class="servicio__linea" aria-hidden="true"></i></span>
+            <div class="servicio__icono"><svg viewBox="0 0 24 24" fill="none" stroke="#7DB7FF" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2.500h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1z"/><path d="M14.500 2.500v4h4"/><path class="ico-linea" d="M8.500 9.500h4"/><path class="ico-linea l2" d="M8.500 12h2.500"/><path class="ico-check" d="m8.500 16.500 2.200 2.200 4-4.400"/></svg></div>
+            <h3>Cumplimiento normativo / RGPD</h3>
+            <p class="beneficio">Sepa qué le falta para cumplir el RGPD y en qué orden corregirlo.</p>
+            <p>Revisamos su situación y le acompañamos para que el cumplimiento deje de ser un quebradero de cabeza.</p>
+            <p class="nota-termino"><strong>RGPD:</strong> la ley europea que regula cómo deben tratarse los datos personales.</p>
+            <a class="servicio__enlace" href="#contacto">Cuéntenos su caso<span class="solo-lector"> sobre el cumplimiento del RGPD</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. PROYECTOS ===================== -->
+    <section id="proyectos" class="seccion" aria-labelledby="titulo-proyectos">
+      <div class="resplandor resplandor--izq" aria-hidden="true"></div>
+      <div class="contenedor">
+        <header class="seccion__cabeza revela">
+          <p class="etiqueta">Proyectos</p>
+          <h2 id="titulo-proyectos">Herramientas propias para cuidar de su web</h2>
+          <p>Son las que usamos a diario. Pulse «Ver más» y la tarjeta le cuenta el detalle.</p>
+        </header>
+
+        <div class="galeria-marco" data-carrusel>
+          <div class="galeria" role="group" aria-label="Productos de Cuidanet">
+
+            <!-- Escudo en tiempo real -->
+            <article class="producto-flip revela" data-inclinar data-flip>
+              <div class="flip__escena"><div class="flip__giro">
+                <div class="tarjeta producto__cara producto__frente">
+                  <div class="producto__visual">
+                <svg viewBox="0 0 320 180" role="img" aria-label="Un escudo que bloquea los ataques que llegan hacia una web" focusable="false">
+                  <g stroke="#7DB7FF" stroke-opacity=".25" stroke-dasharray="4 6">
+                    <line x1="22" y1="60" x2="112" y2="60"/><line x1="22" y1="90" x2="112" y2="90"/><line x1="22" y1="120" x2="112" y2="120"/>
+                  </g>
+                  <circle class="sv-ataque" cx="22" cy="60" r="5" fill="#7DB7FF"/>
+                  <circle class="sv-ataque t2" cx="22" cy="90" r="5" fill="#7DB7FF"/>
+                  <circle class="sv-ataque t3" cx="22" cy="120" r="5" fill="#7DB7FF"/>
+                  <rect x="236" y="64" width="70" height="52" rx="6" fill="none" stroke="#7DB7FF" stroke-opacity=".5" stroke-width="1.500"/>
+                  <path d="M236 78h70" stroke="#7DB7FF" stroke-opacity=".5"/><path d="M246 92h34M246 102h22" stroke="#A9B6CC" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+                  <path class="sv-onda" d="M160 28 206 46v48c0 30-20 52-46 64-26-12-46-34-46-64V46z" fill="none" stroke="#2E8BFF" stroke-width="2"/>
+                  <path d="M160 28 206 46v48c0 30-20 52-46 64-26-12-46-34-46-64V46z" fill="rgba(46,139,255,.14)" stroke="#2E8BFF" stroke-width="2.500" stroke-linejoin="round"/>
+                  <path d="m140 94 14 14 28-30" fill="none" stroke="#F2F6FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h3>Escudo en tiempo real</h3>
+                    <p>Vigila sus webs y apps, detecta ataques y las pone a salvo en segundos.</p>
+                    <div class="producto__acciones">
+                      <button class="flip__boton" type="button" data-girar="abrir" aria-expanded="false">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tarjeta producto__cara producto__dorso">
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h4 class="dorso__titulo">Más sobre el Escudo en tiempo real</h4>
+                    <div class="extra"><p>Si detecta un acceso sospechoso, lo bloquea. Y si hace falta, activa el <strong>failover</strong>: cambia su web a un sistema de reserva para que siga en línea.</p>
+                    <p><span class="pendiente">[PENDIENTE: captura real]</span></p></div>
+                    <div class="producto__acciones">
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="flip__boton flip__boton--volver" type="button" data-girar="cerrar">Volver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+              </div></div>
+            </article>
+
+            <!-- Auditor RGPD con IA -->
+            <article class="producto-flip revela" data-d="1" data-inclinar data-flip>
+              <div class="flip__escena"><div class="flip__giro">
+                <div class="tarjeta producto__cara producto__frente">
+                  <div class="producto__visual">
+                <svg viewBox="0 0 320 180" role="img" aria-label="Un informe con barras de cumplimiento y un punto marcado para corregir" focusable="false">
+                  <rect x="80" y="20" width="160" height="140" rx="10" fill="#0B1220" stroke="#2E8BFF" stroke-opacity=".6" stroke-width="1.500"/>
+                  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="104" cy="52" r="8" stroke="#7DB7FF" stroke-width="1.500"/><path d="m100.500 52 2.500 2.500 4-5" stroke="#7DB7FF" stroke-width="1.800"/>
+                    <circle cx="104" cy="82" r="8" stroke="#7DB7FF" stroke-width="1.500"/><path d="m100.500 82 2.500 2.500 4-5" stroke="#7DB7FF" stroke-width="1.800"/>
+                    <circle cx="104" cy="112" r="8" stroke="#7DB7FF" stroke-width="1.500"/><path d="m100.500 112 2.500 2.500 4-5" stroke="#7DB7FF" stroke-width="1.800"/>
+                    <circle class="sv-aviso" cx="104" cy="142" r="8" stroke="#2E8BFF" stroke-width="2.500"/>
+                  </g>
+                  <g fill="#7DB7FF" fill-opacity=".18">
+                    <rect x="122" y="48" width="100" height="8" rx="4"/><rect x="122" y="78" width="100" height="8" rx="4"/>
+                    <rect x="122" y="108" width="100" height="8" rx="4"/><rect x="122" y="138" width="100" height="8" rx="4"/>
+                  </g>
+                  <rect class="sv-barra" x="122" y="48" width="100" height="8" rx="4" fill="#2E8BFF"/>
+                  <rect class="sv-barra t2" x="122" y="78" width="84" height="8" rx="4" fill="#2E8BFF"/>
+                  <rect class="sv-barra t3" x="122" y="108" width="92" height="8" rx="4" fill="#2E8BFF"/>
+                  <rect class="sv-barra t4" x="122" y="138" width="42" height="8" rx="4" fill="#7DB7FF"/>
+                </svg>
+              </div>
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h3>Auditor RGPD con IA</h3>
+                    <p>Analiza su nivel de cumplimiento del RGPD y le señala qué corregir primero.</p>
+                    <div class="producto__acciones">
+                      <button class="flip__boton" type="button" data-girar="abrir" aria-expanded="false">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tarjeta producto__cara producto__dorso">
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h4 class="dorso__titulo">Más sobre el Auditor RGPD con IA</h4>
+                    <div class="extra"><p>Le ofrece una visión clara de dónde está y qué le falta, para que pueda decidir con calma por dónde empezar.</p>
+                    <p class="aviso">Es una ayuda para orientarle y no sustituye el asesoramiento legal.</p>
+                    <p><span class="pendiente">[PENDIENTE: captura real]</span></p></div>
+                    <div class="producto__acciones">
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="flip__boton flip__boton--volver" type="button" data-girar="cerrar">Volver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+              </div></div>
+            </article>
+
+            <!-- Radar de vulnerabilidades -->
+            <article class="producto-flip revela" data-d="2" data-inclinar data-flip>
+              <div class="flip__escena"><div class="flip__giro">
+                <div class="tarjeta producto__cara producto__frente">
+                  <div class="producto__visual">
+                <svg viewBox="0 0 320 180" role="img" aria-label="Un radar que explora y, a su derecha, una lista de hallazgos ordenada por prioridad" focusable="false">
+                  <g fill="none" stroke="#2E8BFF" stroke-opacity=".4">
+                    <circle cx="90" cy="90" r="70"/><circle cx="90" cy="90" r="46"/><circle cx="90" cy="90" r="22"/>
+                    <path d="M90 20v140M20 90h140" stroke-opacity=".2"/>
+                  </g>
+                  <path class="sv-barrido" d="M90 90V20A70 70 0 0 0 40.500 40.500z" fill="#2E8BFF" fill-opacity=".45"/>
+                  <circle cx="120" cy="58" r="4" fill="#7DB7FF"/><circle cx="62" cy="112" r="4" fill="#7DB7FF"/><circle cx="104" cy="122" r="4" fill="#7DB7FF"/>
+                  <g>
+                    <circle cx="188" cy="56" r="6" fill="#7DB7FF"/><rect x="204" y="52" width="100" height="8" rx="4" fill="#7DB7FF"/>
+                    <circle cx="188" cy="90" r="5" fill="#2E8BFF"/><rect x="204" y="86" width="72" height="8" rx="4" fill="#2E8BFF" fill-opacity=".8"/>
+                    <circle cx="188" cy="124" r="4" fill="#2E8BFF" fill-opacity=".6"/><rect x="204" y="120" width="44" height="8" rx="4" fill="#2E8BFF" fill-opacity=".5"/>
+                  </g>
+                </svg>
+              </div>
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h3>Radar de vulnerabilidades</h3>
+                    <p>Revisa de forma periódica y automática sus webs y apps, y le entrega un informe ordenado por prioridad.</p>
+                    <div class="producto__acciones">
+                      <button class="flip__boton" type="button" data-girar="abrir" aria-expanded="false">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tarjeta producto__cara producto__dorso">
+                  <div class="producto__cuerpo">
+                    <p class="etiqueta">Producto</p>
+                    <h4 class="dorso__titulo">Más sobre el Radar de vulnerabilidades</h4>
+                    <div class="extra"><p>Busca configuraciones débiles, librerías desactualizadas y <strong>puertos abiertos</strong> (puertas de entrada de su sistema que conviene tener cerradas).</p>
+                    <p><span class="pendiente">[PENDIENTE: captura real]</span></p></div>
+                    <div class="producto__acciones">
+                      <a class="enlace-demo" href="#contacto">Pídanos una demostración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="flip__boton flip__boton--volver" type="button" data-girar="cerrar">Volver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+              </div></div>
+            </article>
+          </div>
+
+          <!-- Mandos del carrusel: los muestra main.js; sin JS se desliza con el dedo o el ratón -->
+          <div class="galeria-mando" hidden>
+            <button class="mando" type="button" data-dir="-1" aria-label="Producto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+            <button class="mando" type="button" data-dir="1" aria-label="Producto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. EQUIPO ===================== -->
+    <section id="equipo" class="seccion" aria-labelledby="titulo-equipo">
+      <div class="contenedor">
+        <header class="seccion__cabeza revela">
+          <p class="etiqueta">Equipo</p>
+          <h2 id="titulo-equipo">Las personas que cuidarán de su web</h2>
+          <p>Somos tres profesionales generalistas, con formación en desarrollo de aplicaciones, redes y ciberseguridad.</p>
+        </header>
+
+        <div class="equipo">
+          <article class="tarjeta miembro revela" data-inclinar>
+            <a class="miembro__enlace" href="equipo/marcos.html">
+              <div class="miembro__foto"><img src="assets/img/fotoMarcos-640.jpg" width="640" height="640" loading="lazy" alt="Retrato de Marcos"></div>
+              <div class="miembro__cuerpo">
+                <h3>Marcos</h3>
+                <p class="miembro__rol">Generalista · Desarrollo de aplicaciones (DAM), Ciberseguridad y Redes</p>
+                <span class="miembro__mas">Conocer a Marcos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </div>
+            </a>
+          </article>
+
+          <article class="tarjeta miembro revela" data-inclinar data-d="1">
+            <a class="miembro__enlace" href="equipo/andrew.html">
+              <div class="miembro__foto miembro__foto--vacia">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.400 3.600-7 8-7s8 2.600 8 7"/></svg>
+                <span class="pendiente">[PENDIENTE: foto]</span>
+              </div>
+              <div class="miembro__cuerpo">
+                <h3>Andrew</h3>
+                <p class="miembro__rol">Generalista · Desarrollo de aplicaciones (DAM) y Redes</p>
+                <span class="miembro__mas">Conocer a Andrew <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </div>
+            </a>
+          </article>
+
+          <article class="tarjeta miembro revela" data-inclinar data-d="2">
+            <a class="miembro__enlace" href="equipo/inigo.html">
+              <div class="miembro__foto"><img src="assets/img/fotoInigo-640.jpg" width="640" height="640" loading="lazy" alt="Retrato de Iñigo"></div>
+              <div class="miembro__cuerpo">
+                <h3>Iñigo</h3>
+                <p class="miembro__rol">Generalista · Desarrollo de aplicaciones (DAM) y Ciberseguridad</p>
+                <span class="miembro__mas">Conocer a Iñigo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PREGUNTAS FRECUENTES ===================== -->
+    <section id="preguntas" class="seccion" aria-labelledby="titulo-preguntas">
+      <div class="contenedor preguntas">
+        <header class="seccion__cabeza revela">
+          <p class="etiqueta">Preguntas frecuentes</p>
+          <h2 id="titulo-preguntas">Lo que suelen preguntarnos</h2>
+          <p>Si no encuentra su duda, escríbanos. Se la resolvemos sin tecnicismos.</p>
+        </header>
+        <div class="faq revela" data-d="1">
+          <details>
+            <summary>¿Necesito conocimientos técnicos para trabajar con ustedes? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>No. Le explicamos todo en lenguaje claro y le decimos qué hacer y en qué orden. El detalle técnico va aparte, para quien lo necesite.</p>
+          </details>
+          <details>
+            <summary>¿Cuánto tarda el primer análisis? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Depende del tamaño de su web o app. Tras su solicitud le damos un plazo concreto; para una web pequeña, suele ser de <span class="ejemplo">3 a 5 días laborables</span>.</p>
+          </details>
+          <details>
+            <summary>¿El análisis puede afectar al funcionamiento de mi web? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Trabajamos para evitarlo y lo acordamos con usted antes de empezar: qué se revisa, cuándo y cómo. Solo analizamos sistemas suyos o con su autorización expresa.</p>
+          </details>
+          <details>
+            <summary>¿El Auditor RGPD sustituye a un abogado? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>No. Es una ayuda para ver qué le falta y por dónde empezar, pero no sustituye el asesoramiento legal.</p>
+          </details>
+          <details>
+            <summary>¿Pueden garantizar que nunca me atacarán? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Ningún proveedor serio puede prometer una seguridad absoluta. Lo que hacemos es reducir el riesgo, detectar en segundos y actuar cuando algo ocurre.</p>
+          </details>
+          <details>
+            <summary>¿Qué hacen con mis datos? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Solo usamos los necesarios para atender su consulta, tal y como explicamos en nuestra <a href="privacidad.html">política de privacidad</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 5. CONTACTO ===================== -->
+    <section id="contacto" class="seccion" aria-labelledby="titulo-contacto">
+      <div class="resplandor resplandor--der" aria-hidden="true"></div>
+      <div class="contenedor">
+        <header class="seccion__cabeza revela">
+          <p class="etiqueta">Contacto</p>
+          <h2 id="titulo-contacto">Solicite su análisis</h2>
+          <p>Cuéntenos qué web o app quiere proteger. Le explicamos, sin tecnicismos, por dónde empezar.</p>
+        </header>
+
+        <div class="contacto">
+          <!--
+            DESARROLLO: de momento no hay backend. Sin JS, el formulario usa "mailto:".
+            Con JS, main.js valida, sanea y abre el correo del usuario con el mensaje preparado.
+            La validación REAL (y el envío) tendrán que hacerse en servidor cuando exista.
+          -->
+          <form id="formulario" class="formulario revela" action="mailto:tecnara.grupo06@gmail.com" method="post" enctype="text/plain" autocomplete="on">
+            <div class="campo">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" name="nombre" type="text" autocomplete="name" required maxlength="80" aria-describedby="err-nombre">
+              <p class="error" id="err-nombre"></p>
+            </div>
+            <div class="campo">
+              <label for="email">Correo electrónico</label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="120" aria-describedby="err-email">
+              <p class="error" id="err-email"></p>
+            </div>
+            <div class="campo">
+              <label for="empresa">Empresa <span class="opcional">(opcional)</span></label>
+              <input id="empresa" name="empresa" type="text" autocomplete="organization" maxlength="100">
+            </div>
+            <div class="campo">
+              <label for="mensaje">¿Qué web o app quiere proteger?</label>
+              <textarea id="mensaje" name="mensaje" required maxlength="1000" aria-describedby="err-mensaje"></textarea>
+              <p class="error" id="err-mensaje"></p>
+            </div>
+
+            <div class="campo">
+              <label class="consentimiento">
+                <input id="consentimiento" name="consentimiento" type="checkbox" required aria-describedby="err-consentimiento">
+                <span>He leído la <a href="privacidad.html">política de privacidad</a> y acepto que Cuidanet use mis datos para responder a mi consulta.</span>
+              </label>
+              <p class="error" id="err-consentimiento"></p>
+            </div>
+            <p class="info-datos"><strong>Información básica sobre sus datos.</strong> Responsable: <span class="ejemplo">Cuidanet Seguridad, S. L.</span> Finalidad: atender su consulta. Puede ejercer sus derechos (acceso, rectificación, supresión…) escribiéndonos al correo de contacto.</p>
+
+            <div class="formulario__pie">
+              <button class="boton boton--principal" type="submit" data-magnetico>Solicite su análisis
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+              <small>Al pulsar, se abrirá su programa de correo con el mensaje ya preparado para que lo envíe.</small>
+            </div>
+            <p class="formulario__estado" id="estado-formulario" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="datos revela" data-d="2" aria-label="Datos de contacto">
+            <h3>También puede escribirnos</h3>
+            <dl>
+              <div><dt>Correo</dt><dd><a href="mailto:tecnara.grupo06@gmail.com">tecnara.grupo06@gmail.com</a></dd></div>
+              <div><dt>Teléfono</dt><dd><span class="ejemplo">+34 900 000 000</span></dd></div>
+              <div><dt>Dirección</dt><dd><span class="ejemplo">Calle Ejemplo 1, 28000 Madrid</span></dd></div>
+              <div><dt>Horario</dt><dd><span class="ejemplo">De lunes a viernes, de 9:00 a 18:00</span></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+
+      <!-- ===================== PAISAJE DE CIERRE =====================
+           Amanecer sobre una ciudad protegida. Capas SVG que GSAP mueve con el scroll (parallax):
+           sin JS se ve ya "amanecido". Es decoración: no lleva texto salvo el lema. -->
+      <div class="paisaje">
+       <div class="paisaje__fondo" aria-hidden="true">
+        <div class="paisaje__sol"></div>
+        <svg class="paisaje__svg" viewBox="0 0 1600 640" preserveAspectRatio="xMidYMax slice" focusable="false">
+          <defs>
+            <radialGradient id="gDomo" cx="50%" cy="100%" r="100%">
+              <stop offset="0" stop-color="#2E8BFF" stop-opacity="0"/>
+              <stop offset="0.75" stop-color="#2E8BFF" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#7DB7FF" stop-opacity="0.3"/>
+            </radialGradient>
+          </defs>
+          <g class="capa-estrellas"><circle class="estr" cx="364" cy="11" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="1386" cy="80" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="962" cy="260" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1566" cy="234" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1174" cy="136" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="1494" cy="10" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="1160" cy="39" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1317" cy="241" r="1.2" fill="#F2F6FF"/><circle class="estr" cx="65" cy="190" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="523" cy="47" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="1092" cy="140" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="931" cy="175" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="541" cy="145" r="1.2" fill="#F2F6FF"/><circle class="estr" cx="755" cy="81" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="696" cy="25" r="1.2" fill="#F2F6FF"/><circle class="estr" cx="100" cy="87" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="591" cy="249" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="991" cy="216" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="1065" cy="228" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="658" cy="108" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="263" cy="112" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1323" cy="213" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1527" cy="49" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="351" cy="230" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1009" cy="65" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="75" cy="257" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1178" cy="59" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="1016" cy="120" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="755" cy="263" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1384" cy="83" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1409" cy="175" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="547" cy="216" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="734" cy="266" r="1.2" fill="#F2F6FF"/><circle class="estr" cx="1204" cy="55" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="192" cy="81" r="2.0" fill="#F2F6FF"/><circle class="estr" cx="572" cy="132" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="1144" cy="48" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="80" cy="235" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="22" cy="182" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="592" cy="252" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="409" cy="217" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1512" cy="121" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="569" cy="115" r="1.2" fill="#F2F6FF"/><circle class="estr" cx="759" cy="153" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="742" cy="13" r="1.6" fill="#F2F6FF"/><circle class="estr" cx="701" cy="208" r="0.8" fill="#F2F6FF"/><circle class="estr" cx="1532" cy="81" r="1.0" fill="#F2F6FF"/><circle class="estr" cx="1443" cy="130" r="1.0" fill="#F2F6FF"/></g>
+          <g class="capa-lejos"><path d="M0 640 L0 331 L130 360 L260 379 L390 412 L520 423 L650 349 L780 357 L910 403 L1040 338 L1170 425 L1300 350 L1430 385 L1560 425 L1690 349 L1600 640 Z" fill="#0E2146" fill-opacity="0.95"/></g>
+          <g class="capa-cerca"><path d="M0 640 L0 425 L90 419 L180 433 L270 404 L360 442 L450 453 L540 469 L630 442 L720 413 L810 408 L900 445 L990 455 L1080 471 L1170 407 L1260 461 L1350 439 L1440 392 L1530 463 L1620 478 L1600 640 Z" fill="#0A1730" fill-opacity="1"/></g>
+          <g class="capa-ciudad"><rect x="0" y="434" width="57" height="206" fill="#070E1D"/><rect x="60" y="339" width="66" height="301" fill="#070E1D"/><rect x="129" y="386" width="43" height="254" fill="#070E1D"/><rect x="152" y="360" width="2" height="26" fill="#070E1D"/><rect x="175" y="437" width="48" height="203" fill="#070E1D"/><rect x="200" y="411" width="2" height="26" fill="#070E1D"/><rect x="226" y="415" width="71" height="225" fill="#070E1D"/><rect x="263" y="389" width="2" height="26" fill="#070E1D"/><rect x="300" y="367" width="86" height="273" fill="#070E1D"/><rect x="389" y="479" width="45" height="161" fill="#070E1D"/><rect x="437" y="488" width="92" height="152" fill="#070E1D"/><rect x="484" y="462" width="2" height="26" fill="#070E1D"/><rect x="532" y="470" width="66" height="170" fill="#070E1D"/><rect x="601" y="402" width="53" height="238" fill="#070E1D"/><rect x="657" y="380" width="38" height="260" fill="#070E1D"/><rect x="677" y="354" width="2" height="26" fill="#070E1D"/><rect x="698" y="440" width="73" height="200" fill="#070E1D"/><rect x="774" y="476" width="73" height="164" fill="#070E1D"/><rect x="850" y="467" width="69" height="173" fill="#070E1D"/><rect x="922" y="474" width="55" height="166" fill="#070E1D"/><rect x="980" y="446" width="57" height="194" fill="#070E1D"/><rect x="1040" y="477" width="73" height="163" fill="#070E1D"/><rect x="1116" y="338" width="55" height="302" fill="#070E1D"/><rect x="1174" y="407" width="51" height="233" fill="#070E1D"/><rect x="1228" y="370" width="49" height="270" fill="#070E1D"/><rect x="1280" y="382" width="62" height="258" fill="#070E1D"/><rect x="1312" y="356" width="2" height="26" fill="#070E1D"/><rect x="1345" y="337" width="74" height="303" fill="#070E1D"/><rect x="1422" y="425" width="42" height="215" fill="#070E1D"/><rect x="1467" y="480" width="65" height="160" fill="#070E1D"/><rect x="1535" y="490" width="72" height="150" fill="#070E1D"/><rect x="1572" y="464" width="2" height="26" fill="#070E1D"/><rect class="vent" x="20" y="478" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="34" y="442" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="66" y="347" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="66" y="527" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="80" y="419" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="108" y="437" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="108" y="455" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="181" y="463" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="195" y="445" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="195" y="481" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="195" y="517" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="246" y="423" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="260" y="423" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="306" y="447" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="320" y="447" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="320" y="501" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="334" y="393" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="334" y="447" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="334" y="501" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="348" y="447" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="362" y="411" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="362" y="501" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="395" y="487" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="395" y="523" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="409" y="487" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="457" y="496" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="457" y="514" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="471" y="496" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="499" y="496" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="538" y="478" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="552" y="496" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="552" y="532" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="566" y="532" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="580" y="478" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="607" y="446" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="621" y="446" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="621" y="482" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="635" y="410" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="635" y="464" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="635" y="536" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="663" y="388" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="663" y="424" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="663" y="532" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="677" y="424" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="677" y="442" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="677" y="514" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="677" y="532" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="704" y="448" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="704" y="484" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="704" y="502" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="704" y="520" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="718" y="484" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="746" y="520" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="808" y="484" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="808" y="520" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="822" y="484" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="822" y="520" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="856" y="511" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="870" y="475" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="870" y="529" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="942" y="500" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="956" y="482" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="956" y="518" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="986" y="490" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="986" y="508" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="986" y="526" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1046" y="485" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1088" y="521" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1122" y="436" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1136" y="418" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1136" y="454" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1150" y="346" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1180" y="505" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1208" y="451" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1248" y="504" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1286" y="498" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1286" y="534" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1300" y="480" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1314" y="390" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1314" y="426" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1314" y="444" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1314" y="480" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1351" y="435" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1351" y="453" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1351" y="489" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1365" y="417" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1379" y="363" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1379" y="471" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1379" y="525" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1393" y="345" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1393" y="489" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1428" y="487" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1428" y="505" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1428" y="523" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1442" y="505" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1487" y="488" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1487" y="506" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1541" y="534" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1555" y="498" width="6" height="8" rx="1" fill="#7DB7FF"/><rect class="vent" x="1569" y="516" width="6" height="8" rx="1" fill="#7DB7FF"/></g>
+          <g class="paisaje__domo">
+            <path d="M560 560A240 240 0 0 1 1040 560Z" fill="url(#gDomo)"/>
+            <path d="M560 560A240 240 0 0 1 1040 560" fill="none" stroke="#7DB7FF" stroke-opacity="0.85" stroke-width="2.500"/>
+            <path d="M590 560A210 210 0 0 1 1010 560" fill="none" stroke="#2E8BFF" stroke-opacity="0.55" stroke-width="1.500" stroke-dasharray="6 12"/>
+          </g>
+          <g class="capa-suelo"><path d="M0 600C300 566 560 596 800 584C1050 570 1320 598 1600 570V640H0Z" fill="#05070D"/></g>
+          <rect x="0" y="612" width="1600" height="28" fill="#05070D"/>
+        </svg>
+       </div>
+       <h3 class="paisaje__lema" data-letras>Usted descanse. Nosotros vigilamos.</h3>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 6. PIE ===================== -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__rejilla">
+        <div class="pie__marca">
+          <a class="logo" href="#inicio" aria-label="Cuidanet, ir al inicio">
+            <svg viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 1.5 22 5.5V14c0 6-5 10.500-10 12.500C7 24.500 2 20 2 14V5.500z" stroke="#2E8BFF" stroke-width="2" stroke-linejoin="round" fill="rgba(46,139,255,.15)"/><path d="m8 14 3 3 5-6" stroke="#7DB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cuidanet
+          </a>
+          <p>Ciberseguridad para pymes y grandes empresas. Encontramos los puntos débiles de sus webs y apps y las defendemos en tiempo real.</p>
+        </div>
+        <nav aria-label="Secciones de la web">
+          <h2 class="pie__tit">La web</h2>
+          <ul><li><a href="#servicios">Servicios</a></li><li><a href="#proyectos">Proyectos</a></li><li><a href="#equipo">Equipo</a></li><li><a href="#contacto">Contacto</a></li></ul>
+        </nav>
+        <nav aria-label="Información legal">
+          <h2 class="pie__tit">Legal</h2>
+          <ul><li><a href="aviso-legal.html">Aviso legal</a></li><li><a href="privacidad.html">Privacidad</a></li><li><a href="cookies.html">Cookies</a></li></ul>
+        </nav>
+        <div>
+          <h2 class="pie__tit">Contacto</h2>
+          <ul><li><a href="mailto:tecnara.grupo06@gmail.com">tecnara.grupo06@gmail.com</a></li><li><span class="ejemplo">+34 900 000 000</span></li><li><span class="pendiente">Redes sociales [PENDIENTE: enlace real]</span></li></ul>
+        </div>
+      </div>
+      <p class="pie__legal">© Cuidanet</p>
+    </div>
+  </footer>
+</body>
+</html>
