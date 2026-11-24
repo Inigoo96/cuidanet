@@ -1,0 +1,10 @@
+# Finales de línea LF en todo el repositorio (también en Windows): así las huellas
+# de las librerías de js/vendor coinciden en cualquier equipo.
+* text=auto eol=lf
+
+# Archivos binarios: Git no debe tocarlos.
+*.webp binary
+*.woff2 binary
+*.jpg binary
+*.jpeg binary
+*.png binary
