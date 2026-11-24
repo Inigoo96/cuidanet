@@ -1,0 +1,11 @@
+{
+  "name": "cuidanet-generar-frames",
+  "private": true,
+  "description": "Herramienta de desarrollo (no se publica): genera los fotogramas de la escena cinemática.",
+  "scripts": {
+    "generar": "node generar.cjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.49.1"
+  }
+}

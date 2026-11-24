@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "skills": {
+    "micro-interactions": {
+      "source": "dylantarre/animation-principles",
+      "commit": "83597134ba8ff59838270f94d7ac7282ffa3b54d",
+      "sourceType": "github",
+      "skillPath": "skills/01-by-domain/micro-interactions/SKILL.md",
+      "computedHash": "77db3b50eb92733e09ecad032eaf5afc236f96242e33a02f35fc8d0a40844415"
+    },
+    "scroll-animations": {
+      "source": "dylantarre/animation-principles",
+      "commit": "83597134ba8ff59838270f94d7ac7282ffa3b54d",
+      "sourceType": "github",
+      "skillPath": "skills/05-by-animation-type/scroll-animations/SKILL.md",
+      "computedHash": "9172ede8b97a31750c141d008958b6de9731cfbcd90f7ebe8e561c7492b20ab8"
+    }
+  }
+}

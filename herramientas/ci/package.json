@@ -1,0 +1,15 @@
+{
+  "name": "cuidanet-ci",
+  "private": true,
+  "description": "Herramientas de comprobación para la integración continua (no se publican con la web).",
+  "scripts": {
+    "comprobar": "node comprobar.mjs",
+    "html": "html-validate -c .htmlvalidate.json ../../index.html ../../aviso-legal.html ../../privacidad.html ../../cookies.html ../../equipo/marcos.html ../../equipo/andrew.html ../../equipo/inigo.html",
+    "humo": "node humo.mjs",
+    "todo": "npm run comprobar && npm run html && npm run humo"
+  },
+  "devDependencies": {
+    "html-validate": "11.21.1",
+    "playwright-core": "1.49.1"
+  }
+}

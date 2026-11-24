@@ -1,0 +1,79 @@
+name: CI
+
+# Integración continua de la web de Cuidanet.
+# Se ejecuta en cada pull request y en cada cambio en main.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permisos mínimos: este flujo solo necesita leer el código.
+permissions:
+  contents: read
+
+# Si llega un cambio nuevo a la misma rama, se cancela la ejecución anterior.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  calidad:
+    name: Calidad, seguridad y navegador
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Las acciones van fijadas por su commit exacto (no por etiqueta): una etiqueta puede
+      # moverse; un commit no. Dependabot propone las actualizaciones.
+      - name: Descargar el código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: herramientas/ci/package-lock.json
+
+      - name: Instalar herramientas de comprobación (versiones fijadas)
+        working-directory: herramientas/ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Reglas del proyecto (CSP, sin terceros, sin secretos, integridad de GSAP, enlaces, peso)
+        run: node herramientas/ci/comprobar.mjs
+
+      - name: Sintaxis de JavaScript
+        run: node --check js/main.js
+
+      - name: HTML válido
+        working-directory: herramientas/ci
+        run: npm run html
+
+      - name: Pruebas de humo en Chrome (móvil, tablet, escritorio, sin JS, movimiento reducido)
+        working-directory: herramientas/ci
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run humo
+
+  dependencias:
+    name: Vulnerabilidades en dependencias
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      # Auditoría de las herramientas de CI. La web en sí solo depende de GSAP, que va autoalojado
+      # y con su huella comprobada en el paso anterior.
+      - name: Auditar dependencias (falla con vulnerabilidades altas o críticas)
+        working-directory: herramientas/ci
+        run: npm audit --audit-level=high

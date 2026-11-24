@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- CSP restrictiva (ver comentario en index.html). Cabeceras HSTS y X-Content-Type-Options: ver LEEME.md -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#05070D">
+  <meta name="color-scheme" content="dark">
+  <title>Iñigo · Equipo · Cuidanet</title>
+  <meta name="description" content="Conozca a Iñigo, parte del equipo de Cuidanet, ciberseguridad para empresas.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/estilos.css">
+  <script src="../js/main.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <div class="progreso" role="none"></div>
+
+  <!-- ===================== CABECERA FIJA ===================== -->
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="logo" href="../index.html" aria-label="Cuidanet, ir al inicio">
+        <svg viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 1.5 22 5.5V14c0 6-5 10.500-10 12.500C7 24.500 2 20 2 14V5.500z" stroke="#2E8BFF" stroke-width="2" stroke-linejoin="round" fill="rgba(46,139,255,.15)"/><path d="m8 14 3 3 5-6" stroke="#7DB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cuidanet
+      </a>
+      <nav class="menu" aria-label="Principal">
+        <ul>
+          <li><a href="../index.html#inicio">Inicio</a></li>
+          <li><a href="../index.html#servicios">Servicios</a></li>
+          <li><a href="../index.html#proyectos">Proyectos</a></li>
+          <li><a href="../index.html#equipo">Equipo</a></li>
+          <li><a href="../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <a class="boton boton--principal boton--cabecera" href="../index.html#contacto">Solicite su análisis</a>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha">
+    <div class="contenedor">
+      <a class="ficha__volver" href="../index.html#equipo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Volver al equipo</a>
+      <div class="ficha__rejilla">
+        <div class="ficha__foto"><img src="../assets/img/fotoInigo-640.jpg" width="640" height="640" alt="Retrato de Iñigo"></div>
+        <div>
+          <p class="etiqueta">Equipo · Generalista</p>
+          <h1>Iñigo</h1>
+          <ul class="ficha__areas" aria-label="Áreas de formación"><li>Desarrollo de Aplicaciones Multiplataforma (DAM)</li><li>Ciberseguridad</li></ul>
+          <p class="ficha__bio">Iñigo une desarrollo de aplicaciones y ciberseguridad. Sabe cómo se construye una web y, por eso, también cómo se protege. <span class="ejemplo">Bio provisional: ampliar con trayectoria real</span></p>
+          <div class="ficha__acciones">
+            <a class="boton boton--principal" href="../index.html#contacto">Solicite su análisis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="boton boton--secundario" href="https://www.linkedin.com/in/inigoaldev" target="_blank" rel="noopener noreferrer">LinkedIn de Iñigo<span class="solo-lector"> (se abre en otra pestaña)</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== 6. PIE ===================== -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__rejilla">
+        <div class="pie__marca">
+          <a class="logo" href="../index.html" aria-label="Cuidanet, ir al inicio">
+            <svg viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M12 1.5 22 5.5V14c0 6-5 10.500-10 12.500C7 24.500 2 20 2 14V5.500z" stroke="#2E8BFF" stroke-width="2" stroke-linejoin="round" fill="rgba(46,139,255,.15)"/><path d="m8 14 3 3 5-6" stroke="#7DB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cuidanet
+          </a>
+          <p>Ciberseguridad para pymes y grandes empresas. Encontramos los puntos débiles de sus webs y apps y las defendemos en tiempo real.</p>
+        </div>
+        <nav aria-label="Secciones de la web">
+          <h2 class="pie__tit">La web</h2>
+          <ul><li><a href="../index.html#servicios">Servicios</a></li><li><a href="../index.html#proyectos">Proyectos</a></li><li><a href="../index.html#equipo">Equipo</a></li><li><a href="../index.html#contacto">Contacto</a></li></ul>
+        </nav>
+        <nav aria-label="Información legal">
+          <h2 class="pie__tit">Legal</h2>
+          <ul><li><a href="../aviso-legal.html">Aviso legal</a></li><li><a href="../privacidad.html">Privacidad</a></li><li><a href="../cookies.html">Cookies</a></li></ul>
+        </nav>
+        <div>
+          <h2 class="pie__tit">Contacto</h2>
+          <ul><li><a href="mailto:tecnara.grupo06@gmail.com">tecnara.grupo06@gmail.com</a></li><li><span class="ejemplo">+34 900 000 000</span></li><li><span class="pendiente">Redes sociales [PENDIENTE: enlace real]</span></li></ul>
+        </div>
+      </div>
+      <p class="pie__legal">© Cuidanet</p>
+    </div>
+  </footer>
+</body>
+</html>

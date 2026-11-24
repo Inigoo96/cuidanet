@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "frontend-design@anthropic-plugin-directory": true,
+    "marketing@anthropic-plugin-directory": true,
+    "remotion@anthropic-plugin-directory": true,
+    "design@anthropic-plugin-directory": true
+  }
+}

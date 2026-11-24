@@ -1,0 +1,241 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  ESCENA CINEMÁTICA DE CUIDANET (herramienta de desarrollo, NO se publica con la web).
+  Dibuja un fotograma en un <canvas> a partir de un tiempo t entre 0 y 1.
+  Es determinista: el mismo t da siempre la misma imagen (semilla fija).
+  generar.cjs llama a window.render(t, ancho, alto, calidad) y guarda cada fotograma en WebP.
+
+  Guion (4 momentos que la web explica con textos):
+    0.00–0.25  La red de la empresa en la oscuridad; la cámara avanza entre los nodos.
+    0.25–0.50  El radar barre la red; aparece un acceso sospechoso y se le marca.
+    0.50–0.75  El escudo se forma y el acceso queda bloqueado (onda de impacto).
+    0.75–1.00  La cámara se aleja: red en calma, escudo estable y marca de "protegido".
+  Sin texto ni personas dentro de la imagen.
+-->
+<body style="margin:0;background:#05070D">
+<canvas id="c"></canvas>
+<script>
+'use strict';
+/* ---------- Utilidades ---------- */
+const mulberry = (a) => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const sm = (a, b, x) => { x = clamp((x - a) / (b - a)); return x * x * (3 - 2 * x); }; // smoothstep
+const lerp = (a, b, k) => a + (b - a) * k;
+
+/* ---------- Mundo (semilla fija) ---------- */
+const R = mulberry(20261124);
+const HUB = { x: 0, y: 0, z: 2600 };
+const RADIO_ESCUDO = 260;
+const nodos = [];
+while (nodos.length < 190) {
+  const n = { x: (R() - 0.5) * 3000, y: (R() - 0.5) * 1700, z: 150 + R() * 3400, r: 1.2 + R() * 2.2, fase: R() * 6.28 };
+  // Hueco alrededor del eje para que el escudo se vea limpio
+  if (Math.abs(n.x) < 320 && Math.abs(n.y) < 320 && n.z > 1300 && n.z < 3000) continue;
+  nodos.push(n);
+}
+const dist3 = (a, b) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+const aristas = []; const vistas = new Set();
+const conectar = (i, j, extra) => {
+  const k = i < j ? i + '-' + j : j + '-' + i;
+  if (vistas.has(k)) return; vistas.add(k);
+  aristas.push({ a: i, b: j, ph: R(), paquete: R() < 0.45 || extra });
+};
+nodos.forEach((n, i) => {
+  nodos.map((m, j) => ({ j, d: i === j ? 1e9 : dist3(n, m) })).sort((p, q) => p.d - q.d).slice(0, 2).forEach((v) => { if (v.d < 700) conectar(i, v.j); });
+});
+// El concentrador (hub) se conecta con los nodos más cercanos
+const HUB_I = nodos.length; nodos.push({ ...HUB, r: 0, fase: 0, hub: true });
+nodos.slice(0, HUB_I).map((m, j) => ({ j, d: dist3(HUB, m) })).sort((p, q) => p.d - q.d).slice(0, 10).forEach((v) => conectar(HUB_I, v.j, true));
+
+// Intruso: llega desde lejos, a la derecha y por detrás del concentrador
+const ORIGEN = { x: 1900, y: -900, z: 3250 };
+const dirIntruso = (() => { const d = dist3(ORIGEN, HUB); return { x: (ORIGEN.x - HUB.x) / d, y: (ORIGEN.y - HUB.y) / d, z: (ORIGEN.z - HUB.z) / d }; })();
+const IMPACTO = { x: HUB.x + dirIntruso.x * RADIO_ESCUDO, y: HUB.y + dirIntruso.y * RADIO_ESCUDO, z: HUB.z + dirIntruso.z * RADIO_ESCUDO };
+const T_IMPACTO = 0.64;
+const posIntruso = (t) => { const q = Math.pow(sm(0.36, T_IMPACTO, t), 1.5); return { x: lerp(ORIGEN.x, IMPACTO.x, q), y: lerp(ORIGEN.y, IMPACTO.y, q), z: lerp(ORIGEN.z, IMPACTO.z, q) }; };
+const chispas = Array.from({ length: 30 }, () => ({ ang: R() * 6.283, vel: 0.35 + R() * 0.9, tam: 1 + R() * 2 }));
+
+/* ---------- Cámara ---------- */
+const camZ = (t) => -300 + 1950 * sm(0, 0.72, t) - 650 * sm(0.74, 1, t);
+const camX = (t) => Math.sin(t * 5.0) * 90;
+const camY = (t) => Math.cos(t * 3.6) * 50;
+
+/* ---------- Brillos reutilizables ---------- */
+function crearBrillo(rgb) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d'); const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gr.addColorStop(0, `rgba(${rgb},1)`); gr.addColorStop(0.25, `rgba(${rgb},.45)`); gr.addColorStop(1, `rgba(${rgb},0)`);
+  g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return c;
+}
+const BRILLO_AZUL = crearBrillo('46,139,255');
+const BRILLO_CLARO = crearBrillo('200,225,255');
+
+/* ---------- Fotograma ---------- */
+function dibujar(ctx, w, h, t) {
+  const s = h / 720;            // escala respecto a 720 px de alto
+  const f = 1000 * s;           // distancia focal
+  const cz = camZ(t), cx = camX(t), cy = camY(t);
+  const proy = (x, y, z) => { const dz = z - cz; if (dz < 60) return null; const p = f / dz; return { x: w / 2 + (x - cx) * p, y: h / 2 + (y - cy) * p, p, dz }; };
+  const niebla = (dz) => Math.pow(clamp(1 - dz / 3300), 1.3) * sm(60, 320, dz);
+
+  // Fondo con foco suave
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#05070D'; ctx.fillRect(0, 0, w, h);
+  const fondo = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, h * 0.75);
+  fondo.addColorStop(0, 'rgba(24,60,120,.28)'); fondo.addColorStop(1, 'rgba(5,7,13,0)');
+  ctx.fillStyle = fondo; ctx.fillRect(0, 0, w, h);
+
+  // Radar: onda que se expande desde el concentrador
+  const radioOnda = lerp(0, 2800, clamp((t - 0.27) / 0.25));
+  const ondaAct = sm(0.26, 0.31, t) * (1 - sm(0.5, 0.57, t));
+  const brilloNodo = (n) => {
+    const d = dist3(n, HUB);
+    const barrido = Math.exp(-Math.pow((d - radioOnda) / 230, 2)) * ondaAct;
+    const mapeado = (t > 0.3 && d < radioOnda ? 0.18 : 0) * (1 - sm(0.8, 1, t));
+    return barrido * 1.6 + mapeado;
+  };
+
+  const P = nodos.map((n) => proy(n.x, n.y, n.z));
+  const B = nodos.map((n) => brilloNodo(n));
+
+  // Aristas + paquetes de datos
+  ctx.lineWidth = Math.max(1, 1.1 * s);
+  aristas.forEach((e) => {
+    const a = P[e.a], b = P[e.b]; if (!a || !b) return;
+    const al = Math.min(niebla(a.dz), niebla(b.dz));
+    if (al < 0.02) return;
+    const bo = (B[e.a] + B[e.b]) / 2;
+    ctx.strokeStyle = `rgba(46,139,255,${clamp(al * 0.34 * (1 + bo * 1.6), 0, 0.9)})`;
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    if (e.paquete) {
+      const u = (t * 6 + e.ph) % 1;
+      ctx.globalCompositeOperation = 'lighter';
+      const r = 14 * s * Math.min(a.p, b.p) * 3; ctx.globalAlpha = al * 0.9;
+      ctx.drawImage(BRILLO_CLARO, lerp(a.x, b.x, u) - r, lerp(a.y, b.y, u) - r, r * 2, r * 2);
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    }
+  });
+
+  // Nodos
+  ctx.globalCompositeOperation = 'lighter';
+  nodos.forEach((n, i) => {
+    const p = P[i]; if (!p || n.hub) return;
+    const a = niebla(p.dz); if (a < 0.02) return;
+    const parpadeo = 0.75 + 0.25 * Math.sin(t * 9 + n.fase);
+    const rad = clamp(n.r * p.p * 1.6, 0.7 * s, 16 * s);
+    const k = a * parpadeo * (1 + B[i]);
+    ctx.globalAlpha = clamp(k * 0.55, 0, 1);
+    ctx.drawImage(BRILLO_AZUL, p.x - rad * 5, p.y - rad * 5, rad * 10, rad * 10);
+    ctx.globalAlpha = clamp(k, 0, 1);
+    ctx.drawImage(BRILLO_CLARO, p.x - rad * 1.6, p.y - rad * 1.6, rad * 3.2, rad * 3.2);
+  });
+  ctx.globalAlpha = 1;
+
+  // Concentrador (la web del cliente) + escudo
+  const H = P[HUB_I];
+  if (H) {
+    const rr = RADIO_ESCUDO * H.p;
+    const apar = sm(0.5, 0.64, t);
+    const impacto = clamp((t - T_IMPACTO) / 0.16);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = 0.9; const g1 = 150 * H.p; ctx.drawImage(BRILLO_AZUL, H.x - g1 * 2.2, H.y - g1 * 2.2, g1 * 4.4, g1 * 4.4);
+    ctx.globalAlpha = 1; const g2 = 46 * H.p; ctx.drawImage(BRILLO_CLARO, H.x - g2 * 2, H.y - g2 * 2, g2 * 4, g2 * 4);
+
+    if (apar > 0) {
+      const rad = rr * sm(0.5, 0.62, t);
+      ctx.globalCompositeOperation = 'source-over';
+      // Relleno de cúpula
+      const cup = ctx.createRadialGradient(H.x, H.y, rad * 0.35, H.x, H.y, rad);
+      const flash = impacto > 0 ? Math.pow(1 - impacto, 2) * 0.55 : 0;
+      cup.addColorStop(0, 'rgba(46,139,255,0)'); cup.addColorStop(0.8, `rgba(46,139,255,${0.12 * apar + flash * 0.4})`); cup.addColorStop(1, `rgba(125,183,255,${0.34 * apar + flash})`);
+      ctx.fillStyle = cup; ctx.beginPath(); ctx.arc(H.x, H.y, rad, 0, 6.283); ctx.fill();
+      // Contorno y aros
+      ctx.lineWidth = 2.2 * s; ctx.strokeStyle = `rgba(125,183,255,${0.85 * apar})`;
+      ctx.beginPath(); ctx.arc(H.x, H.y, rad, 0, 6.283); ctx.stroke();
+      ctx.lineWidth = 1.2 * s; ctx.strokeStyle = `rgba(125,183,255,${0.4 * apar})`;
+      ctx.beginPath(); ctx.ellipse(H.x, H.y, rad, rad * 0.3, 0, 0, 6.283); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(H.x, H.y, rad * 0.3, rad, 0, 0, 6.283); ctx.stroke();
+      ctx.setLineDash([6 * s, 12 * s]); ctx.lineDashOffset = -t * 700 * s; ctx.strokeStyle = `rgba(46,139,255,${0.75 * apar})`;
+      ctx.beginPath(); ctx.arc(H.x, H.y, rad * 0.86, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
+    }
+
+    // Onda de impacto y chispas
+    if (impacto > 0 && impacto < 1) {
+      const I = proy(IMPACTO.x, IMPACTO.y, IMPACTO.z);
+      if (I) {
+        ctx.globalCompositeOperation = 'lighter';
+        for (let k = 0; k < 2; k++) {
+          const tk = clamp(impacto * 1.15 - k * 0.18); if (tk <= 0) continue;
+          ctx.lineWidth = (3 - k) * s; ctx.strokeStyle = `rgba(160,205,255,${(1 - tk) * 0.9})`;
+          ctx.beginPath(); ctx.arc(I.x, I.y, tk * RADIO_ESCUDO * 0.9 * I.p, 0, 6.283); ctx.stroke();
+        }
+        chispas.forEach((c) => {
+          const d = c.vel * impacto * 420 * I.p * 3.2;
+          ctx.globalAlpha = (1 - impacto) * 0.95; const r = c.tam * 5 * s;
+          ctx.drawImage(BRILLO_CLARO, I.x + Math.cos(c.ang) * d - r, I.y + Math.sin(c.ang) * d - r, r * 2, r * 2);
+        });
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // Marca de "protegido" en el centro
+    const ok = sm(0.82, 0.92, t);
+    if (ok > 0) {
+      const u = rr * 0.26;
+      ctx.globalCompositeOperation = 'source-over'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.lineWidth = Math.max(3 * s, u * 0.22); ctx.strokeStyle = `rgba(242,246,255,${ok * 0.95})`;
+      ctx.beginPath(); ctx.moveTo(H.x - u * 0.9, H.y + u * 0.05); ctx.lineTo(H.x - u * 0.25, H.y + u * 0.7); ctx.lineTo(H.x + u * 1.05, H.y - u * 0.65); ctx.stroke();
+    }
+  }
+
+  // Anillo del radar (en el plano del concentrador)
+  if (H && ondaAct > 0) {
+    ctx.globalCompositeOperation = 'lighter';
+    [0, 380].forEach((retraso, k) => {
+      const r = (radioOnda - retraso) * H.p; if (r <= 4) return;
+      ctx.lineWidth = (k ? 1.2 : 2.4) * s; ctx.strokeStyle = `rgba(125,183,255,${ondaAct * (k ? 0.35 : 0.8) * (1 - clamp(radioOnda / 3100) * 0.7)})`;
+      ctx.beginPath(); ctx.arc(H.x, H.y, r, 0, 6.283); ctx.stroke();
+    });
+  }
+
+  // Intruso: estela, núcleo y marca de detección
+  const aInt = sm(0.36, 0.42, t) * (1 - sm(T_IMPACTO, T_IMPACTO + 0.03, t));
+  if (aInt > 0.01) {
+    ctx.globalCompositeOperation = 'lighter';
+    let prev = null;
+    for (let k = 14; k >= 0; k--) {
+      const q = posIntruso(Math.max(0.36, t - k * 0.006)); const pp = proy(q.x, q.y, q.z); if (!pp) continue;
+      if (prev) { ctx.strokeStyle = `rgba(200,225,255,${aInt * (1 - k / 15) * 0.7})`; ctx.lineWidth = (1 + (1 - k / 15) * 2.2) * s; ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(pp.x, pp.y); ctx.stroke(); }
+      prev = pp;
+    }
+    const q = posIntruso(t); const I = proy(q.x, q.y, q.z);
+    if (I) {
+      const r = clamp(26 * I.p * 2.2, 8 * s, 40 * s);
+      ctx.globalAlpha = aInt; ctx.drawImage(BRILLO_CLARO, I.x - r * 2.2, I.y - r * 2.2, r * 4.4, r * 4.4);
+      ctx.globalAlpha = aInt * 0.6; ctx.drawImage(BRILLO_AZUL, I.x - r * 4, I.y - r * 4, r * 8, r * 8); ctx.globalAlpha = 1;
+      // Marcador de detección (cuatro esquinas) cuando el radar ya lo ha alcanzado
+      const det = sm(0.45, 0.48, t);
+      if (det > 0) {
+        const m = (30 + 6 * Math.sin(t * 40)) * s * (1.6 - 0.6 * det), l = 10 * s;
+        ctx.strokeStyle = `rgba(242,246,255,${det * aInt})`; ctx.lineWidth = 1.8 * s;
+        [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([sx, sy]) => { ctx.beginPath(); ctx.moveTo(I.x + sx * m, I.y + sy * (m - l)); ctx.lineTo(I.x + sx * m, I.y + sy * m); ctx.lineTo(I.x + sx * (m - l), I.y + sy * m); ctx.stroke(); });
+      }
+    }
+  }
+
+  // Viñeta final
+  ctx.globalCompositeOperation = 'source-over';
+  const vin = ctx.createRadialGradient(w / 2, h / 2, h * 0.35, w / 2, h / 2, h * 1.0);
+  vin.addColorStop(0, 'rgba(5,7,13,0)'); vin.addColorStop(1, 'rgba(5,7,13,.78)');
+  ctx.fillStyle = vin; ctx.fillRect(0, 0, w, h);
+}
+
+const lienzo = document.getElementById('c');
+window.render = (t, w, h, calidad) => {
+  lienzo.width = w; lienzo.height = h;
+  dibujar(lienzo.getContext('2d'), w, h, t);
+  return lienzo.toDataURL('image/webp', calidad);
+};
+</script>
+</body>
